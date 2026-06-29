@@ -28,20 +28,20 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eef2f7]">
-      <div className="max-w-6xl mx-auto px-6 py-8">
+    <div className="min-h-screen bg-[#F5F7FA]">
+      <div className="max-w-6xl mx-auto px-8 pt-10 pb-12">
 
         {/* Header */}
-        <div className="mb-6">
-          <p className="text-xs font-semibold text-[#6b84b8] uppercase tracking-widest mb-1">BeyondX · Founder's Associate Portfolio</p>
-          <h1 className="text-4xl font-black text-[#1a2f6b] uppercase tracking-tight leading-none">Analytics Dashboard</h1>
-          <p className="text-sm text-[#6b84b8] mt-1.5">
-            Built by <span className="font-semibold text-[#1a2f6b]">Mahim Jain</span> — demonstrating operational analytics for Beyond's home appliances portfolio
+        <div className="mb-8">
+          <p className="text-[11px] font-semibold text-[#A8C4E0] uppercase tracking-[0.18em] mb-2">BeyondX · Founder's Associate Portfolio</p>
+          <h1 className="text-[2.4rem] font-bold text-[#1B2A6B] leading-tight tracking-tight">Analytics Dashboard</h1>
+          <p className="text-sm text-[#7a91b8] mt-2">
+            Built by <span className="font-semibold text-[#1B2A6B]">Mahim Jain</span> — demonstrating operational analytics for Beyond's home appliances portfolio
           </p>
         </div>
 
         {/* NL Query Bar */}
-        <div className="mb-5">
+        <div className="mb-8">
           <NLQueryBar dashboardData={tabData} />
         </div>
 
@@ -49,13 +49,13 @@ export default function App() {
         <TabBar active={activeTab} onChange={setActiveTab} />
 
         {/* Tab Content */}
-        <div className="mt-5">
+        <div className="mt-8">
           <ActiveTab onData={handleTabData} />
         </div>
 
         {/* Footer */}
-        <div className="mt-8 text-center">
-          <p className="text-xs text-[#6b84b8]">Data from Google Sheets · React + Vite + Tailwind CSS · Gemini 2.5 Flash</p>
+        <div className="mt-12 text-center">
+          <p className="text-xs text-[#A8C4E0]">Data from Google Sheets · React + Vite + Tailwind CSS · Gemini 2.5 Flash</p>
         </div>
       </div>
     </div>

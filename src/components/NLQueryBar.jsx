@@ -25,30 +25,30 @@ export default function NLQueryBar({ dashboardData }) {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-3">
-      <form onSubmit={handleSubmit} className="flex gap-2">
+    <div className="bg-white rounded-xl border border-[#E8EEF6] p-4">
+      <form onSubmit={handleSubmit} className="flex gap-3">
         <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6b84b8]" />
+          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#A8C4E0]" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Ask anything about the dashboard… e.g. Which retailer has the lowest NPS?"
-            className="w-full pl-9 pr-4 py-2 text-sm border border-[#d0daea] rounded-lg outline-none focus:border-[#1a2f6b] transition-colors text-[#1a2f6b] placeholder:text-[#6b84b8] bg-[#f4f7fc]"
+            className="w-full pl-10 pr-4 py-2.5 text-sm border border-[#E8EEF6] rounded-lg outline-none focus:border-[#1B2A6B] transition-colors text-[#1B2A6B] placeholder:text-[#A8C4E0] bg-[#F5F7FA]"
           />
         </div>
         <button
           type="submit"
           disabled={loading || !query.trim()}
-          className="px-5 py-2 bg-[#1a2f6b] text-white text-sm rounded-lg hover:bg-[#152558] disabled:opacity-30 transition-colors flex items-center gap-2 font-semibold"
+          className="px-6 py-2.5 bg-[#1B2A6B] text-white text-sm rounded-lg hover:bg-[#152257] disabled:opacity-30 transition-colors flex items-center gap-2 font-semibold shrink-0"
         >
           {loading && <Loader2 size={13} className="animate-spin" />}
-          Ask
+          Ask Gemini
         </button>
       </form>
 
       {answer && (
-        <div className="mt-3 p-3 bg-[#f4f7fc] rounded-lg text-sm text-[#1a2f6b] leading-relaxed border border-[#d0daea]">
+        <div className="mt-3 p-4 bg-[#F5F7FA] rounded-lg text-sm text-[#1B2A6B] leading-relaxed border border-[#E8EEF6]">
           {answer}
         </div>
       )}
