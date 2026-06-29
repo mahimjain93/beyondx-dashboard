@@ -25,21 +25,22 @@ export default function SalesOverview({ onData }) {
   if (loading) return <Loader />
   if (error) return <Error msg={error} />
 
-  const totalRevenue = data.reduce((s, r) => s + num(r.Revenue ?? r.revenue ?? r['Revenue (₹)'] ?? 0), 0)
-  const totalUnits = data.reduce((s, r) => s + num(r.Units ?? r.units ?? r['Units Sold'] ?? 0), 0)
+  const keys = Object.keys(data[0] ?? {})
+  const revenueKey = keys.find(k => /revenue/i.test(k)) ?? keys[1] ?? ''
+  const unitsKey = keys.find(k => /unit/i.test(k)) ?? keys[2] ?? ''
+  const dateKey = keys.find(k => /month|date|period|week/i.test(k)) ?? keys[0] ?? ''
+  const chartKey = (r) => r[dateKey] ?? ''
+
+  const totalRevenue = data.reduce((s, r) => s + num(r[revenueKey] ?? 0), 0)
+  const totalUnits = data.reduce((s, r) => s + num(r[unitsKey] ?? 0), 0)
   const avgOrderValue = totalUnits ? totalRevenue / totalUnits : 0
 
-  // pick the most recent row's growth vs second most recent
-  const sorted = [...data].sort((a, b) => (a.Month ?? a.month ?? '') > (b.Month ?? b.month ?? '') ? 1 : -1)
+  const sorted = [...data].sort((a, b) => String(a[dateKey]) > String(b[dateKey]) ? 1 : -1)
   const last = sorted[sorted.length - 1]
   const prev = sorted[sorted.length - 2]
-  const growth = prev && num(prev.Revenue ?? prev.revenue ?? 0)
-    ? Math.round(((num(last?.Revenue ?? last?.revenue ?? 0) - num(prev.Revenue ?? prev.revenue ?? 0)) / num(prev.Revenue ?? prev.revenue ?? 0)) * 100)
+  const growth = prev && num(prev[revenueKey])
+    ? Math.round(((num(last?.[revenueKey]) - num(prev[revenueKey])) / num(prev[revenueKey])) * 100)
     : null
-
-  const chartKey = (r) => r.Month ?? r.month ?? r.Date ?? r.date ?? ''
-  const revenueKey = Object.keys(data[0] ?? {}).find(k => /revenue/i.test(k)) ?? 'Revenue'
-  const unitsKey = Object.keys(data[0] ?? {}).find(k => /units/i.test(k)) ?? 'Units'
 
   return (
     <div className="flex flex-col gap-6">
