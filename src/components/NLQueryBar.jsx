@@ -25,22 +25,22 @@ export default function NLQueryBar({ dashboardData }) {
   }
 
   return (
-    <div>
+    <div className="bg-white rounded-xl shadow-sm p-3">
       <form onSubmit={handleSubmit} className="flex gap-2">
         <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#c7c6c3]" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6b84b8]" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Ask anything about the dashboard… e.g. Which retailer has the lowest NPS?"
-            className="w-full pl-9 pr-4 py-2 text-sm border border-[#e9e9e7] rounded-md outline-none focus:border-[#9b9a97] transition-colors text-[#37352f] placeholder:text-[#c7c6c3]"
+            className="w-full pl-9 pr-4 py-2 text-sm border border-[#d0daea] rounded-lg outline-none focus:border-[#1a2f6b] transition-colors text-[#1a2f6b] placeholder:text-[#6b84b8] bg-[#f4f7fc]"
           />
         </div>
         <button
           type="submit"
           disabled={loading || !query.trim()}
-          className="px-4 py-2 bg-[#37352f] text-white text-sm rounded-md hover:bg-[#1a1a18] disabled:opacity-30 transition-colors flex items-center gap-2"
+          className="px-5 py-2 bg-[#1a2f6b] text-white text-sm rounded-lg hover:bg-[#152558] disabled:opacity-30 transition-colors flex items-center gap-2 font-semibold"
         >
           {loading && <Loader2 size={13} className="animate-spin" />}
           Ask
@@ -48,12 +48,12 @@ export default function NLQueryBar({ dashboardData }) {
       </form>
 
       {answer && (
-        <div className="mt-3 p-3 bg-[#f7f6f3] rounded-md text-sm text-[#37352f] leading-relaxed border border-[#e9e9e7]">
+        <div className="mt-3 p-3 bg-[#f4f7fc] rounded-lg text-sm text-[#1a2f6b] leading-relaxed border border-[#d0daea]">
           {answer}
         </div>
       )}
       {error && (
-        <div className="mt-3 p-3 bg-red-50 rounded-md text-sm text-red-600 border border-red-100">
+        <div className="mt-3 p-3 bg-red-50 rounded-lg text-sm text-red-600 border border-red-100">
           {error}
         </div>
       )}

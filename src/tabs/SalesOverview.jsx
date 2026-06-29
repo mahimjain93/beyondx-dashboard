@@ -61,9 +61,9 @@ export default function SalesOverview({ onData }) {
   const channelData = Object.values(byChannel)
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-[#37352f]">Sales Overview</h2>
+        <h2 className="text-lg font-black text-[#1a2f6b] uppercase tracking-wide">Sales Overview</h2>
         <SourceButton href={SHEET_URLS.sales_overview} />
       </div>
 
@@ -74,49 +74,55 @@ export default function SalesOverview({ onData }) {
         <KpiCard label="Weeks of Data" value={weekData.length} />
       </div>
 
-      <div className="border border-[#e9e9e7] rounded-lg p-5">
-        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Weekly revenue trend</p>
-        <ResponsiveContainer width="100%" height={220}>
-          <LineChart data={weekData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="Week" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={40} />
-            <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `₹${(v/1e5).toFixed(0)}L`} />
-            <Tooltip formatter={v => [fmt(v), 'Revenue']} />
-            <Line type="monotone" dataKey="Revenue_INR" stroke="#1a1a1a" strokeWidth={2} dot={false} />
-          </LineChart>
-        </ResponsiveContainer>
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Weekly revenue trend</p>
+        <div className="p-5 pt-4">
+          <ResponsiveContainer width="100%" height={220}>
+            <LineChart data={weekData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+              <XAxis dataKey="Week" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={40} />
+              <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} tickFormatter={v => `₹${(v/1e5).toFixed(0)}L`} />
+              <Tooltip formatter={v => [fmt(v), 'Revenue']} />
+              <Line type="monotone" dataKey="Revenue_INR" stroke="#f59e0b" strokeWidth={2.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Revenue by channel</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="Channel" tick={{ fontSize: 10 }} angle={-15} textAnchor="end" height={45} />
-              <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1e5).toFixed(0)}L`} />
-              <Tooltip formatter={v => [fmt(v), 'Revenue']} />
-              <Bar dataKey="Revenue_INR" fill="#1a1a1a" radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Revenue by channel</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={channelData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+                <XAxis dataKey="Channel" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-15} textAnchor="end" height={45} />
+                <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} tickFormatter={v => `${(v/1e5).toFixed(0)}L`} />
+                <Tooltip formatter={v => [fmt(v), 'Revenue']} />
+                <Bar dataKey="Revenue_INR" fill="#1a2f6b" radius={[3, 3, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Units by channel</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="Channel" tick={{ fontSize: 10 }} angle={-15} textAnchor="end" height={45} />
-              <YAxis tick={{ fontSize: 11 }} />
-              <Tooltip />
-              <Bar dataKey="Units_Sold" fill="#d1d5db" radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Units by channel</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={channelData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+                <XAxis dataKey="Channel" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-15} textAnchor="end" height={45} />
+                <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} />
+                <Tooltip />
+                <Bar dataKey="Units_Sold" fill="#93c5fd" radius={[3, 3, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-function Loader() { return <div className="flex items-center justify-center h-48 text-gray-300"><Loader2 className="animate-spin" size={24} /></div> }
+function Loader() { return <div className="flex items-center justify-center h-48 text-[#6b84b8]"><Loader2 className="animate-spin" size={24} /></div> }
 function Error({ msg }) { return <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-sm text-red-500">Failed to load: {msg}</div> }

@@ -37,9 +37,9 @@ export default function AnomalyFeed({ onData }) {
   const filtered = filter === 'All' ? sorted : sorted.filter(r => r.Severity === filter)
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-[#37352f]">Anomaly Feed</h2>
+        <h2 className="text-lg font-black text-[#1a2f6b] uppercase tracking-wide">Anomaly Feed</h2>
         <SourceButton href={SHEET_URLS.anomaly_log} />
       </div>
 
@@ -56,8 +56,8 @@ export default function AnomalyFeed({ onData }) {
             key={f}
             onClick={() => setFilter(f)}
             className={clsx(
-              'px-3 py-1 text-xs rounded-lg border transition-colors',
-              filter === f ? 'bg-[#37352f] text-white border-[#37352f]' : 'text-[#9b9a97] border-[#e9e9e7] hover:text-[#37352f] hover:border-[#9b9a97]'
+              'px-3 py-1 text-xs rounded-lg border font-semibold transition-colors',
+              filter === f ? 'bg-[#1a2f6b] text-white border-[#1a2f6b]' : 'text-[#6b84b8] border-[#d0daea] hover:text-[#1a2f6b] hover:border-[#1a2f6b]'
             )}
           >
             {f}
@@ -70,26 +70,26 @@ export default function AnomalyFeed({ onData }) {
           const { color, Icon, badge } = SEVERITY[row.Severity] ?? SEVERITY.Medium
           const deviation = num(row.Deviation_Pct)
           return (
-            <div key={i} className={clsx('flex gap-3 items-start p-4 rounded-lg border', color.split(' ').slice(1).join(' '))}>
+            <div key={i} className={clsx('flex gap-3 items-start p-4 rounded-xl border', color.split(' ').slice(1).join(' '))}>
               <div className={clsx('mt-0.5 shrink-0', color.split(' ')[0])}>
                 <Icon size={16} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 flex-wrap">
-                  <span className="text-sm font-medium text-[#37352f]">{row.Alert_Text}</span>
-                  <span className={clsx('text-[10px] font-semibold px-1.5 py-0.5 rounded border shrink-0', badge)}>
+                  <span className="text-sm font-semibold text-[#1a2f6b]">{row.Alert_Text}</span>
+                  <span className={clsx('text-[10px] font-bold px-1.5 py-0.5 rounded border shrink-0', badge)}>
                     {row.Severity}
                   </span>
                 </div>
                 <div className="flex gap-3 mt-1.5 flex-wrap">
-                  <span className="text-xs text-[#9b9a97] bg-[#f7f6f3] px-2 py-0.5 rounded">{row.Module}</span>
-                  <span className="text-xs text-[#9b9a97] bg-[#f7f6f3] px-2 py-0.5 rounded">{row.Metric}</span>
-                  <span className={clsx('text-xs px-2 py-0.5 rounded font-medium', deviation < 0 ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600')}>
+                  <span className="text-xs text-[#6b84b8] bg-[#eef2f7] px-2 py-0.5 rounded">{row.Module}</span>
+                  <span className="text-xs text-[#6b84b8] bg-[#eef2f7] px-2 py-0.5 rounded">{row.Metric}</span>
+                  <span className={clsx('text-xs px-2 py-0.5 rounded font-semibold', deviation < 0 ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600')}>
                     {deviation > 0 ? '+' : ''}{row.Deviation_Pct}%
                   </span>
-                  <span className="text-xs text-[#9b9a97]">{row.Week}</span>
+                  <span className="text-xs text-[#6b84b8]">{row.Week}</span>
                 </div>
-                <div className="flex gap-4 mt-1 text-xs text-[#9b9a97]">
+                <div className="flex gap-4 mt-1 text-xs text-[#6b84b8]">
                   <span>Expected: {row.Expected_Value}</span>
                   <span>Actual: {row.Actual_Value}</span>
                 </div>
@@ -98,12 +98,12 @@ export default function AnomalyFeed({ onData }) {
           )
         })}
         {filtered.length === 0 && (
-          <p className="text-sm text-[#9b9a97] text-center py-8">No anomalies for this filter.</p>
+          <p className="text-sm text-[#6b84b8] text-center py-8">No anomalies for this filter.</p>
         )}
       </div>
     </div>
   )
 }
 
-function Loader() { return <div className="flex items-center justify-center h-48 text-gray-300"><Loader2 className="animate-spin" size={24} /></div> }
+function Loader() { return <div className="flex items-center justify-center h-48 text-[#6b84b8]"><Loader2 className="animate-spin" size={24} /></div> }
 function Error({ msg }) { return <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-sm text-red-500">Failed to load: {msg}</div> }

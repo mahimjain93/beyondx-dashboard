@@ -64,9 +64,9 @@ export default function MarginBySku({ onData }) {
   const totalProfit = skuData.reduce((s, r) => s + r.Gross_Profit_INR, 0)
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-[#37352f]">Margin by SKU</h2>
+        <h2 className="text-lg font-black text-[#1a2f6b] uppercase tracking-wide">Margin by SKU</h2>
         <SourceButton href={SHEET_URLS.margin_by_sku} />
       </div>
 
@@ -77,53 +77,59 @@ export default function MarginBySku({ onData }) {
         <KpiCard label="SKUs" value={skuData.length} />
       </div>
 
-      <div className="border border-[#e9e9e7] rounded-lg p-5">
-        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Avg gross margin % by SKU</p>
-        <ResponsiveContainer width="100%" height={220}>
-          <BarChart data={skuData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="SKU" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={55} />
-            <YAxis tick={{ fontSize: 11 }} unit="%" domain={[0, 50]} />
-            <Tooltip formatter={v => [`${v}%`, 'Avg Margin']} />
-            <Bar dataKey="Avg_Margin_Pct" radius={[3, 3, 0, 0]}>
-              {skuData.map((row, i) => (
-                <Cell key={i} fill={row.Avg_Margin_Pct >= parseFloat(avgMargin) ? '#1a1a1a' : '#d1d5db'} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Avg gross margin % by SKU</p>
+        <div className="p-5 pt-4">
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={skuData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+              <XAxis dataKey="SKU" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={55} />
+              <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} unit="%" domain={[0, 50]} />
+              <Tooltip formatter={v => [`${v}%`, 'Avg Margin']} />
+              <Bar dataKey="Avg_Margin_Pct" radius={[3, 3, 0, 0]}>
+                {skuData.map((row, i) => (
+                  <Cell key={i} fill={row.Avg_Margin_Pct >= parseFloat(avgMargin) ? '#1a2f6b' : '#93c5fd'} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Margin % trend by week</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={weekData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="Week" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={40} />
-              <YAxis tick={{ fontSize: 11 }} unit="%" domain={[25, 45]} />
-              <Tooltip formatter={v => [`${v}%`, 'Avg Margin']} />
-              <Line type="monotone" dataKey="Avg_Margin" stroke="#1a1a1a" strokeWidth={2} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Margin % trend by week</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={200}>
+              <LineChart data={weekData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+                <XAxis dataKey="Week" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={40} />
+                <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} unit="%" domain={[25, 45]} />
+                <Tooltip formatter={v => [`${v}%`, 'Avg Margin']} />
+                <Line type="monotone" dataKey="Avg_Margin" stroke="#f59e0b" strokeWidth={2.5} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Total gross profit by SKU</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={skuData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="SKU" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={55} />
-              <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1e7).toFixed(1)}Cr`} />
-              <Tooltip formatter={v => [fmt(v), 'Gross Profit']} />
-              <Bar dataKey="Gross_Profit_INR" fill="#6b7280" radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Total gross profit by SKU</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={skuData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+                <XAxis dataKey="SKU" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={55} />
+                <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} tickFormatter={v => `${(v/1e7).toFixed(1)}Cr`} />
+                <Tooltip formatter={v => [fmt(v), 'Gross Profit']} />
+                <Bar dataKey="Gross_Profit_INR" fill="#f59e0b" radius={[3, 3, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-function Loader() { return <div className="flex items-center justify-center h-48 text-gray-300"><Loader2 className="animate-spin" size={24} /></div> }
+function Loader() { return <div className="flex items-center justify-center h-48 text-[#6b84b8]"><Loader2 className="animate-spin" size={24} /></div> }
 function Error({ msg }) { return <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-sm text-red-500">Failed to load: {msg}</div> }

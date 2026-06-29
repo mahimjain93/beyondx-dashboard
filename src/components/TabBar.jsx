@@ -11,16 +11,16 @@ const TABS = [
 
 export default function TabBar({ active, onChange }) {
   return (
-    <div className="flex gap-0 border-b border-[#e9e9e7] overflow-x-auto">
+    <div className="flex gap-0 border-b-2 border-[#d0daea] overflow-x-auto">
       {TABS.map((tab) => (
         <button
           key={tab.id}
           onClick={() => onChange(tab.id)}
           className={clsx(
-            'px-4 py-3 text-sm whitespace-nowrap border-b-2 -mb-px transition-colors duration-100',
+            'px-4 py-2.5 text-sm whitespace-nowrap border-b-2 -mb-px transition-colors duration-100',
             active === tab.id
-              ? 'border-[#37352f] text-[#37352f] font-medium'
-              : 'border-transparent text-[#9b9a97] hover:text-[#37352f] font-normal'
+              ? 'border-[#f59e0b] text-[#1a2f6b] font-semibold'
+              : 'border-transparent text-[#6b84b8] hover:text-[#1a2f6b] font-normal'
           )}
         >
           {tab.label}

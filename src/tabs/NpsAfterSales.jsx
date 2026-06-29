@@ -74,9 +74,9 @@ export default function NpsAfterSales({ onData }) {
   const topComplaint = Object.entries(complaints).sort((a, b) => b[1] - a[1])[0]?.[0]
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-[#37352f]">NPS & After-Sales</h2>
+        <h2 className="text-lg font-black text-[#1a2f6b] uppercase tracking-wide">NPS & After-Sales</h2>
         <SourceButton href={SHEET_URLS.nps_aftersales} />
       </div>
 
@@ -87,49 +87,55 @@ export default function NpsAfterSales({ onData }) {
         <KpiCard label="Top Issue" value={topComplaint ?? '—'} />
       </div>
 
-      <div className="border border-[#e9e9e7] rounded-lg p-5">
-        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">NPS trend by week (avg)</p>
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={weekData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="Week" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={40} />
-            <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Line type="monotone" dataKey="Avg_NPS" stroke="#1a1a1a" strokeWidth={2} dot={false} />
-          </LineChart>
-        </ResponsiveContainer>
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">NPS trend by week (avg)</p>
+        <div className="p-5 pt-4">
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={weekData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+              <XAxis dataKey="Week" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={40} />
+              <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: '#6b84b8' }} />
+              <Tooltip />
+              <Line type="monotone" dataKey="Avg_NPS" stroke="#f59e0b" strokeWidth={2.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Avg NPS by channel</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="Channel" tick={{ fontSize: 9 }} angle={-20} textAnchor="end" height={50} />
-              <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
-              <Tooltip />
-              <Bar dataKey="Avg_NPS" fill="#1a1a1a" radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Avg NPS by channel</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={channelData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+                <XAxis dataKey="Channel" tick={{ fontSize: 9, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={50} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: '#6b84b8' }} />
+                <Tooltip />
+                <Bar dataKey="Avg_NPS" fill="#1a2f6b" radius={[3, 3, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Total complaints by channel</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="Channel" tick={{ fontSize: 9 }} angle={-20} textAnchor="end" height={50} />
-              <YAxis tick={{ fontSize: 11 }} />
-              <Tooltip />
-              <Bar dataKey="Complaints_Count" fill="#6b7280" radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Total complaints by channel</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={channelData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+                <XAxis dataKey="Channel" tick={{ fontSize: 9, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={50} />
+                <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} />
+                <Tooltip />
+                <Bar dataKey="Complaints_Count" fill="#f59e0b" radius={[3, 3, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-function Loader() { return <div className="flex items-center justify-center h-48 text-gray-300"><Loader2 className="animate-spin" size={24} /></div> }
+function Loader() { return <div className="flex items-center justify-center h-48 text-[#6b84b8]"><Loader2 className="animate-spin" size={24} /></div> }
 function Error({ msg }) { return <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-sm text-red-500">Failed to load: {msg}</div> }

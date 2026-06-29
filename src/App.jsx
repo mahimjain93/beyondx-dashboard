@@ -28,20 +28,20 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-8">
+    <div className="min-h-screen bg-[#eef2f7]">
+      <div className="max-w-6xl mx-auto px-6 py-8">
 
         {/* Header */}
-        <div className="pt-12 pb-6 border-b border-[#e9e9e7]">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-widest mb-2">BeyondX · Founder's Associate Portfolio</p>
-          <h1 className="text-3xl font-bold text-[#37352f] tracking-tight">Analytics Dashboard</h1>
-          <p className="text-sm text-[#9b9a97] mt-1.5">
-            Built by <span className="text-[#37352f]">Mahim Jain</span> — demonstrating operational analytics for Beyond's home appliances portfolio
+        <div className="mb-6">
+          <p className="text-xs font-semibold text-[#6b84b8] uppercase tracking-widest mb-1">BeyondX · Founder's Associate Portfolio</p>
+          <h1 className="text-4xl font-black text-[#1a2f6b] uppercase tracking-tight leading-none">Analytics Dashboard</h1>
+          <p className="text-sm text-[#6b84b8] mt-1.5">
+            Built by <span className="font-semibold text-[#1a2f6b]">Mahim Jain</span> — demonstrating operational analytics for Beyond's home appliances portfolio
           </p>
         </div>
 
         {/* NL Query Bar */}
-        <div className="py-4 border-b border-[#e9e9e7]">
+        <div className="mb-5">
           <NLQueryBar dashboardData={tabData} />
         </div>
 
@@ -49,13 +49,13 @@ export default function App() {
         <TabBar active={activeTab} onChange={setActiveTab} />
 
         {/* Tab Content */}
-        <div className="py-8">
+        <div className="mt-5">
           <ActiveTab onData={handleTabData} />
         </div>
 
         {/* Footer */}
-        <div className="py-6 border-t border-[#e9e9e7] text-center">
-          <p className="text-xs text-[#c7c6c3]">Data from Google Sheets · React + Vite + Tailwind CSS · Gemini 2.5 Flash</p>
+        <div className="mt-8 text-center">
+          <p className="text-xs text-[#6b84b8]">Data from Google Sheets · React + Vite + Tailwind CSS · Gemini 2.5 Flash</p>
         </div>
       </div>
     </div>

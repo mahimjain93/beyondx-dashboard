@@ -55,9 +55,9 @@ export default function InstallTracker({ onData }) {
   const cities = Object.keys(byCity).length
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-[#37352f]">Install Tracker</h2>
+        <h2 className="text-lg font-black text-[#1a2f6b] uppercase tracking-wide">Install Tracker</h2>
         <SourceButton href={SHEET_URLS.install_tracker} />
       </div>
 
@@ -68,49 +68,55 @@ export default function InstallTracker({ onData }) {
         <KpiCard label="Products" value={productData.length} />
       </div>
 
-      <div className="border border-[#e9e9e7] rounded-lg p-5">
-        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Weekly install trend</p>
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={weekData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="Week" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={40} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Line type="monotone" dataKey="Installs" stroke="#1a1a1a" strokeWidth={2} dot={false} />
-          </LineChart>
-        </ResponsiveContainer>
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Weekly install trend</p>
+        <div className="p-5 pt-4">
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={weekData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+              <XAxis dataKey="Week" tick={{ fontSize: 10, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={40} />
+              <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} />
+              <Tooltip />
+              <Line type="monotone" dataKey="Installs" stroke="#f59e0b" strokeWidth={2.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Top cities by installs</p>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={cityData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" horizontal={false} />
-              <XAxis type="number" tick={{ fontSize: 11 }} />
-              <YAxis dataKey="City" type="category" tick={{ fontSize: 11 }} width={80} />
-              <Tooltip />
-              <Bar dataKey="Installs" fill="#1a1a1a" radius={[0, 3, 3, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Top cities by installs</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={cityData} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" horizontal={false} />
+                <XAxis type="number" tick={{ fontSize: 11, fill: '#6b84b8' }} />
+                <YAxis dataKey="City" type="category" tick={{ fontSize: 11, fill: '#6b84b8' }} width={80} />
+                <Tooltip />
+                <Bar dataKey="Installs" fill="#1a2f6b" radius={[0, 3, 3, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        <div className="border border-[#e9e9e7] rounded-lg p-5">
-          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Installs by product</p>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={productData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="Product" tick={{ fontSize: 9 }} angle={-20} textAnchor="end" height={50} />
-              <YAxis tick={{ fontSize: 11 }} />
-              <Tooltip />
-              <Bar dataKey="Installs" fill="#6b7280" radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+          <p className="text-xs font-semibold text-[#1a2f6b] uppercase tracking-wide bg-[#eef2f7] px-5 py-2">Installs by product</p>
+          <div className="p-5 pt-4">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={productData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e8edf5" />
+                <XAxis dataKey="Product" tick={{ fontSize: 9, fill: '#6b84b8' }} angle={-20} textAnchor="end" height={50} />
+                <YAxis tick={{ fontSize: 11, fill: '#6b84b8' }} />
+                <Tooltip />
+                <Bar dataKey="Installs" fill="#93c5fd" radius={[3, 3, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-function Loader() { return <div className="flex items-center justify-center h-48 text-gray-300"><Loader2 className="animate-spin" size={24} /></div> }
+function Loader() { return <div className="flex items-center justify-center h-48 text-[#6b84b8]"><Loader2 className="animate-spin" size={24} /></div> }
 function Error({ msg }) { return <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-sm text-red-500">Failed to load: {msg}</div> }
