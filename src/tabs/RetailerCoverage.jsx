@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react'
-import {
-  ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, BarChart, Bar,
-} from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
 import { Loader2 } from 'lucide-react'
+import clsx from 'clsx'
 
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
+function fmt(n) {
+  if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)}L`
+  return `₹${Math.round(n).toLocaleString('en-IN')}`
+}
+
+const STATUS_COLORS = {
+  Active: 'bg-green-50 text-green-700 border-green-100',
+  Onboarding: 'bg-blue-50 text-blue-700 border-blue-100',
+  Churned: 'bg-red-50 text-red-600 border-red-100',
+}
 
 export default function RetailerCoverage({ onData }) {
   const [data, setData] = useState([])
@@ -25,15 +33,21 @@ export default function RetailerCoverage({ onData }) {
   if (loading) return <Loader />
   if (error) return <Error msg={error} />
 
-  const keys = Object.keys(data[0] ?? {})
-  const nameKey = keys[0] ?? ''
-  const numKeys = keys.filter(k => k !== nameKey)
-  const primaryNumKey = numKeys[0] ?? ''
-  const secondaryNumKey = numKeys[1] ?? ''
+  // Latest week per retailer
+  const latestByRetailer = {}
+  data.forEach(r => {
+    if (!latestByRetailer[r.Retailer_Name] || r.Week > latestByRetailer[r.Retailer_Name].Week) {
+      latestByRetailer[r.Retailer_Name] = r
+    }
+  })
+  const latest = Object.values(latestByRetailer)
 
-  const activeRetailers = data.filter(r => /active/i.test(String(r.Status ?? r.status ?? 'active'))).length || data.length
-  const totalRetailers = data.length
-  const topRetailer = [...data].sort((a, b) => num(b[primaryNumKey]) - num(a[primaryNumKey]))[0]
+  const active = latest.filter(r => r.Status === 'Active').length
+  const onboarding = latest.filter(r => r.Status === 'Onboarding').length
+  const churned = latest.filter(r => r.Status === 'Churned').length
+  const totalGMV = latest.reduce((s, r) => s + num(r.Monthly_GMV_INR), 0)
+
+  const gmvData = [...latest].sort((a, b) => num(b.Monthly_GMV_INR) - num(a.Monthly_GMV_INR))
 
   return (
     <div className="flex flex-col gap-6">
@@ -43,38 +57,48 @@ export default function RetailerCoverage({ onData }) {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KpiCard label="Total Retailers" value={totalRetailers} />
-        <KpiCard label="Active" value={activeRetailers} />
-        <KpiCard label="Top Retailer" value={topRetailer?.[nameKey] ?? '—'} />
-        <KpiCard label="Columns" value={keys.length} sub="data fields" />
+        <KpiCard label="Active Retailers" value={active} />
+        <KpiCard label="Onboarding" value={onboarding} />
+        <KpiCard label="Churned" value={churned} />
+        <KpiCard label="Total GMV" value={fmt(totalGMV)} sub="latest week" />
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">{primaryNumKey} by retailer</p>
-        <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={data.slice(0, 15)}>
+        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Monthly GMV by retailer (latest week)</p>
+        <ResponsiveContainer width="100%" height={240}>
+          <BarChart data={gmvData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey={nameKey} tick={{ fontSize: 10 }} angle={-30} textAnchor="end" height={50} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Bar dataKey={primaryNumKey} fill="#1a1a1a" radius={[3, 3, 0, 0]} />
-            {secondaryNumKey && <Bar dataKey={secondaryNumKey} fill="#d1d5db" radius={[3, 3, 0, 0]} />}
+            <XAxis dataKey="Retailer_Name" tick={{ fontSize: 10 }} angle={-25} textAnchor="end" height={55} />
+            <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1e5).toFixed(0)}L`} />
+            <Tooltip formatter={v => [fmt(v), 'GMV']} />
+            <Bar dataKey="Monthly_GMV_INR" fill="#1a1a1a" radius={[3, 3, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 overflow-auto">
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">Retailer table</p>
+        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">Retailer status (latest week)</p>
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100">
-              {keys.map(k => <th key={k} className="text-left py-2 pr-4 text-xs font-medium text-gray-400">{k}</th>)}
+              {['Retailer', 'City', 'Tier', 'Status', 'Last Order', 'Monthly GMV'].map(h => (
+                <th key={h} className="text-left py-2 pr-4 text-xs font-medium text-gray-400">{h}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {data.slice(0, 20).map((row, i) => (
+            {latest.map((row, i) => (
               <tr key={i} className="border-b border-gray-50 hover:bg-gray-50">
-                {keys.map(k => <td key={k} className="py-2 pr-4 text-gray-700">{row[k]}</td>)}
+                <td className="py-2 pr-4 font-medium text-gray-800">{row.Retailer_Name}</td>
+                <td className="py-2 pr-4 text-gray-600">{row.City}</td>
+                <td className="py-2 pr-4 text-gray-500">{row.City_Tier}</td>
+                <td className="py-2 pr-4">
+                  <span className={clsx('text-xs px-2 py-0.5 rounded border font-medium', STATUS_COLORS[row.Status] ?? 'bg-gray-50 text-gray-500 border-gray-100')}>
+                    {row.Status}
+                  </span>
+                </td>
+                <td className="py-2 pr-4 text-gray-500">{row.Last_Order_Date}</td>
+                <td className="py-2 pr-4 text-gray-700">{fmt(num(row.Monthly_GMV_INR))}</td>
               </tr>
             ))}
           </tbody>
