@@ -76,7 +76,7 @@ export default function NpsAfterSales({ onData }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-800">NPS & After-Sales</h2>
+        <h2 className="text-base font-semibold text-[#37352f]">NPS & After-Sales</h2>
         <SourceButton href={SHEET_URLS.nps_aftersales} />
       </div>
 
@@ -87,8 +87,8 @@ export default function NpsAfterSales({ onData }) {
         <KpiCard label="Top Issue" value={topComplaint ?? '—'} />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">NPS trend by week (avg)</p>
+      <div className="border border-[#e9e9e7] rounded-lg p-5">
+        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">NPS trend by week (avg)</p>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={weekData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -101,8 +101,8 @@ export default function NpsAfterSales({ onData }) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Avg NPS by channel</p>
+        <div className="border border-[#e9e9e7] rounded-lg p-5">
+          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Avg NPS by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -114,8 +114,8 @@ export default function NpsAfterSales({ onData }) {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Total complaints by channel</p>
+        <div className="border border-[#e9e9e7] rounded-lg p-5">
+          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Total complaints by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />

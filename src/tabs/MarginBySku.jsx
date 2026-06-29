@@ -66,7 +66,7 @@ export default function MarginBySku({ onData }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-800">Margin by SKU</h2>
+        <h2 className="text-base font-semibold text-[#37352f]">Margin by SKU</h2>
         <SourceButton href={SHEET_URLS.margin_by_sku} />
       </div>
 
@@ -77,8 +77,8 @@ export default function MarginBySku({ onData }) {
         <KpiCard label="SKUs" value={skuData.length} />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Avg gross margin % by SKU</p>
+      <div className="border border-[#e9e9e7] rounded-lg p-5">
+        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Avg gross margin % by SKU</p>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={skuData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -95,8 +95,8 @@ export default function MarginBySku({ onData }) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Margin % trend by week</p>
+        <div className="border border-[#e9e9e7] rounded-lg p-5">
+          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Margin % trend by week</p>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={weekData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -108,8 +108,8 @@ export default function MarginBySku({ onData }) {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Total gross profit by SKU</p>
+        <div className="border border-[#e9e9e7] rounded-lg p-5">
+          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Total gross profit by SKU</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={skuData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />

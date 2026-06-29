@@ -39,7 +39,7 @@ export default function AnomalyFeed({ onData }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-800">Anomaly Feed</h2>
+        <h2 className="text-base font-semibold text-[#37352f]">Anomaly Feed</h2>
         <SourceButton href={SHEET_URLS.anomaly_log} />
       </div>
 
@@ -57,7 +57,7 @@ export default function AnomalyFeed({ onData }) {
             onClick={() => setFilter(f)}
             className={clsx(
               'px-3 py-1 text-xs rounded-lg border transition-colors',
-              filter === f ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+              filter === f ? 'bg-[#37352f] text-white border-[#37352f]' : 'text-[#9b9a97] border-[#e9e9e7] hover:text-[#37352f] hover:border-[#9b9a97]'
             )}
           >
             {f}
@@ -70,26 +70,26 @@ export default function AnomalyFeed({ onData }) {
           const { color, Icon, badge } = SEVERITY[row.Severity] ?? SEVERITY.Medium
           const deviation = num(row.Deviation_Pct)
           return (
-            <div key={i} className={clsx('flex gap-3 items-start p-4 rounded-xl border shadow-sm', color.split(' ').slice(1).join(' '))}>
+            <div key={i} className={clsx('flex gap-3 items-start p-4 rounded-lg border', color.split(' ').slice(1).join(' '))}>
               <div className={clsx('mt-0.5 shrink-0', color.split(' ')[0])}>
                 <Icon size={16} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 flex-wrap">
-                  <span className="text-sm font-medium text-gray-900">{row.Alert_Text}</span>
+                  <span className="text-sm font-medium text-[#37352f]">{row.Alert_Text}</span>
                   <span className={clsx('text-[10px] font-semibold px-1.5 py-0.5 rounded border shrink-0', badge)}>
                     {row.Severity}
                   </span>
                 </div>
                 <div className="flex gap-3 mt-1.5 flex-wrap">
-                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{row.Module}</span>
-                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{row.Metric}</span>
+                  <span className="text-xs text-[#9b9a97] bg-[#f7f6f3] px-2 py-0.5 rounded">{row.Module}</span>
+                  <span className="text-xs text-[#9b9a97] bg-[#f7f6f3] px-2 py-0.5 rounded">{row.Metric}</span>
                   <span className={clsx('text-xs px-2 py-0.5 rounded font-medium', deviation < 0 ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600')}>
                     {deviation > 0 ? '+' : ''}{row.Deviation_Pct}%
                   </span>
-                  <span className="text-xs text-gray-400">{row.Week}</span>
+                  <span className="text-xs text-[#9b9a97]">{row.Week}</span>
                 </div>
-                <div className="flex gap-4 mt-1 text-xs text-gray-400">
+                <div className="flex gap-4 mt-1 text-xs text-[#9b9a97]">
                   <span>Expected: {row.Expected_Value}</span>
                   <span>Actual: {row.Actual_Value}</span>
                 </div>
@@ -98,7 +98,7 @@ export default function AnomalyFeed({ onData }) {
           )
         })}
         {filtered.length === 0 && (
-          <p className="text-sm text-gray-400 text-center py-8">No anomalies for this filter.</p>
+          <p className="text-sm text-[#9b9a97] text-center py-8">No anomalies for this filter.</p>
         )}
       </div>
     </div>

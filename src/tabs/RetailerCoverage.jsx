@@ -52,7 +52,7 @@ export default function RetailerCoverage({ onData }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-800">Retailer Coverage</h2>
+        <h2 className="text-base font-semibold text-[#37352f]">Retailer Coverage</h2>
         <SourceButton href={SHEET_URLS.retailer_coverage} />
       </div>
 
@@ -63,8 +63,8 @@ export default function RetailerCoverage({ onData }) {
         <KpiCard label="Total GMV" value={fmt(totalGMV)} sub="latest week" />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Monthly GMV by retailer (latest week)</p>
+      <div className="border border-[#e9e9e7] rounded-lg p-5">
+        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Monthly GMV by retailer (latest week)</p>
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={gmvData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -77,28 +77,28 @@ export default function RetailerCoverage({ onData }) {
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 overflow-auto">
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">Retailer status (latest week)</p>
+        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-3">Retailer status (latest week)</p>
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100">
               {['Retailer', 'City', 'Tier', 'Status', 'Last Order', 'Monthly GMV'].map(h => (
-                <th key={h} className="text-left py-2 pr-4 text-xs font-medium text-gray-400">{h}</th>
+                <th key={h} className="text-left py-2 pr-4 text-xs font-medium text-[#9b9a97]">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {latest.map((row, i) => (
               <tr key={i} className="border-b border-gray-50 hover:bg-gray-50">
-                <td className="py-2 pr-4 font-medium text-gray-800">{row.Retailer_Name}</td>
-                <td className="py-2 pr-4 text-gray-600">{row.City}</td>
-                <td className="py-2 pr-4 text-gray-500">{row.City_Tier}</td>
+                <td className="py-2 pr-4 font-medium text-[#37352f]">{row.Retailer_Name}</td>
+                <td className="py-2 pr-4 text-[#6b6b68]">{row.City}</td>
+                <td className="py-2 pr-4 text-[#9b9a97]">{row.City_Tier}</td>
                 <td className="py-2 pr-4">
                   <span className={clsx('text-xs px-2 py-0.5 rounded border font-medium', STATUS_COLORS[row.Status] ?? 'bg-gray-50 text-gray-500 border-gray-100')}>
                     {row.Status}
                   </span>
                 </td>
-                <td className="py-2 pr-4 text-gray-500">{row.Last_Order_Date}</td>
-                <td className="py-2 pr-4 text-gray-700">{fmt(num(row.Monthly_GMV_INR))}</td>
+                <td className="py-2 pr-4 text-[#9b9a97]">{row.Last_Order_Date}</td>
+                <td className="py-2 pr-4 text-[#37352f]">{fmt(num(row.Monthly_GMV_INR))}</td>
               </tr>
             ))}
           </tbody>

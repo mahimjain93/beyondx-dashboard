@@ -63,7 +63,7 @@ export default function SalesOverview({ onData }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-800">Sales Overview</h2>
+        <h2 className="text-base font-semibold text-[#37352f]">Sales Overview</h2>
         <SourceButton href={SHEET_URLS.sales_overview} />
       </div>
 
@@ -74,8 +74,8 @@ export default function SalesOverview({ onData }) {
         <KpiCard label="Weeks of Data" value={weekData.length} />
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Weekly revenue trend</p>
+      <div className="border border-[#e9e9e7] rounded-lg p-5">
+        <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Weekly revenue trend</p>
         <ResponsiveContainer width="100%" height={220}>
           <LineChart data={weekData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -88,8 +88,8 @@ export default function SalesOverview({ onData }) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Revenue by channel</p>
+        <div className="border border-[#e9e9e7] rounded-lg p-5">
+          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Revenue by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -101,8 +101,8 @@ export default function SalesOverview({ onData }) {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Units by channel</p>
+        <div className="border border-[#e9e9e7] rounded-lg p-5">
+          <p className="text-xs font-medium text-[#9b9a97] uppercase tracking-wide mb-4">Units by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
