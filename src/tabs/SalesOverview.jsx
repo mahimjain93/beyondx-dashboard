@@ -18,7 +18,7 @@ function fmt(n) {
 }
 
 function SectionTitle({ children }) {
-  return <p className="text-[11px] font-semibold text-[#7a91b8] uppercase tracking-[0.12em] mb-4">{children}</p>
+  return <p className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.12em] mb-4">{children}</p>
 }
 
 export default function SalesOverview({ onData }) {

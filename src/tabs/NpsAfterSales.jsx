@@ -12,7 +12,7 @@ const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8'
 
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 function SectionTitle({ children }) {
-  return <p className="text-[11px] font-semibold text-[#7a91b8] uppercase tracking-[0.12em] mb-4">{children}</p>
+  return <p className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.12em] mb-4">{children}</p>
 }
 
 export default function NpsAfterSales({ onData }) {

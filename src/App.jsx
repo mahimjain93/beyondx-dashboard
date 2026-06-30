@@ -29,19 +29,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
-      <div className="max-w-5xl mx-auto px-12 pt-12 pb-16">
+      <div className="max-w-4xl mx-auto px-10 pt-12 pb-16">
 
         {/* Header */}
         <div className="mb-10">
           <p className="text-[11px] font-semibold text-[#A8C4E0] uppercase tracking-[0.18em] mb-3">BeyondX · Founder's Associate Portfolio</p>
           <h1 className="text-[2.4rem] font-bold text-[#1B2A6B] leading-tight tracking-tight">Analytics Dashboard</h1>
-          <p className="text-sm text-[#7a91b8] mt-2">
+          <p className="text-sm text-[#566584] mt-2">
             Built by <span className="font-semibold text-[#1B2A6B]">Mahim Jain</span> — demonstrating operational analytics for Beyond's home appliances portfolio
           </p>
         </div>
 
         {/* NL Query Bar */}
-        <div className="mb-10 max-w-2xl">
+        <div className="mb-10">
           <NLQueryBar dashboardData={tabData} />
         </div>
 
