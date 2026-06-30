@@ -60,10 +60,10 @@ export default function RetailerCoverage({ onData }) {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <KpiCard label="Active Retailers" value={active} />
-        <KpiCard label="Onboarding" value={onboarding} />
-        <KpiCard label="Churned" value={churned} />
-        <KpiCard label="Total GMV" value={fmt(totalGMV)} sub="latest week" />
+        <KpiCard label="Active Retailers" value={active} tooltip="Retailers with 'Active' status in the latest week's snapshot — currently placing orders." tooltipHref={SHEET_URLS.retailer_coverage} />
+        <KpiCard label="Onboarding" value={onboarding} tooltip="Retailers currently being onboarded — signed up but not yet placing regular orders." tooltipHref={SHEET_URLS.retailer_coverage} />
+        <KpiCard label="Churned" value={churned} tooltip="Retailers who have stopped ordering. Flag for re-engagement outreach." tooltipHref={SHEET_URLS.retailer_coverage} />
+        <KpiCard label="Total GMV" value={fmt(totalGMV)} sub="latest week" tooltip="Sum of monthly GMV across all retailers as of the most recent week in the dataset." tooltipHref={SHEET_URLS.retailer_coverage} />
       </div>
 
       <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">

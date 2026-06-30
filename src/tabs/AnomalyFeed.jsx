@@ -43,10 +43,10 @@ export default function AnomalyFeed({ onData }) {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <KpiCard label="Total Anomalies" value={data.length} />
-        <KpiCard label="High Severity" value={high} />
-        <KpiCard label="Medium" value={medium} />
-        <KpiCard label="Low" value={low} />
+        <KpiCard label="Total Anomalies" value={data.length} tooltip="Total flagged anomalies across all modules and severity levels in the log." tooltipHref={SHEET_URLS.anomaly_log} />
+        <KpiCard label="High Severity" value={high} tooltip="Critical anomalies with significant deviation from expected values — require immediate review." tooltipHref={SHEET_URLS.anomaly_log} />
+        <KpiCard label="Medium" value={medium} tooltip="Moderate anomalies worth monitoring — may indicate emerging trends or data quality issues." tooltipHref={SHEET_URLS.anomaly_log} />
+        <KpiCard label="Low" value={low} tooltip="Minor anomalies within near-acceptable deviation ranges — informational only." tooltipHref={SHEET_URLS.anomaly_log} />
       </div>
 
       <div className="flex gap-2">

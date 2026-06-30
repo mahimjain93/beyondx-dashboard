@@ -23,12 +23,17 @@ function SectionTitle({ children }) {
 
 export default function SalesOverview({ onData }) {
   const [data, setData] = useState([])
+  const [retailerData, setRetailerData] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetchSheet('sales_overview')
-      .then((rows) => { setData(rows); onData?.(rows) })
+    Promise.all([fetchSheet('sales_overview'), fetchSheet('retailer_coverage')])
+      .then(([salesRows, retailerRows]) => {
+        setData(salesRows)
+        setRetailerData(retailerRows)
+        onData?.(salesRows)
+      })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
   }, [])
@@ -62,6 +67,20 @@ export default function SalesOverview({ onData }) {
   })
   const channelData = Object.values(byChannel)
 
+  // Top city by GMV from retailer data
+  const latestByRetailer = {}
+  retailerData.forEach(r => {
+    if (!latestByRetailer[r.Retailer_Name] || r.Week > latestByRetailer[r.Retailer_Name].Week) {
+      latestByRetailer[r.Retailer_Name] = r
+    }
+  })
+  const cityGMV = {}
+  Object.values(latestByRetailer).forEach(r => {
+    if (!cityGMV[r.City]) cityGMV[r.City] = { City: r.City, Tier: r.City_Tier, GMV: 0 }
+    cityGMV[r.City].GMV += num(r.Monthly_GMV_INR)
+  })
+  const topCity = Object.values(cityGMV).sort((a, b) => b.GMV - a.GMV)[0]
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
@@ -69,11 +88,40 @@ export default function SalesOverview({ onData }) {
         <SourceButton href={SHEET_URLS.sales_overview} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <KpiCard label="Total Revenue" value={fmt(totalRevenue)} trend={growth} sub="vs last week" />
-        <KpiCard label="Units Sold" value={totalUnits.toLocaleString('en-IN')} />
-        <KpiCard label="Avg Selling Price" value={fmt(avgOrderValue)} />
-        <KpiCard label="Weeks of Data" value={weekData.length} />
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
+        <KpiCard
+          label="Total Revenue"
+          value={fmt(totalRevenue)}
+          trend={growth}
+          sub="vs last week"
+          tooltip="Aggregate revenue across all sales channels for the full dataset period."
+          tooltipHref={SHEET_URLS.sales_overview}
+        />
+        <KpiCard
+          label="Units Sold"
+          value={totalUnits.toLocaleString('en-IN')}
+          tooltip="Total appliance units sold across all channels and weeks."
+          tooltipHref={SHEET_URLS.sales_overview}
+        />
+        <KpiCard
+          label="Avg Selling Price"
+          value={fmt(avgOrderValue)}
+          tooltip="Average revenue per unit, computed as total revenue ÷ total units sold."
+          tooltipHref={SHEET_URLS.sales_overview}
+        />
+        <KpiCard
+          label="Weeks of Data"
+          value={weekData.length}
+          tooltip="Number of distinct weekly snapshots available in the sales dataset."
+          tooltipHref={SHEET_URLS.sales_overview}
+        />
+        <KpiCard
+          label="Top City"
+          value={topCity?.City ?? '—'}
+          sub={topCity?.Tier ?? ''}
+          tooltip="City with the highest cumulative GMV from retailer orders, based on latest-week retailer data."
+          tooltipHref={SHEET_URLS.retailer_coverage}
+        />
       </div>
 
       <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
