@@ -67,13 +67,13 @@ export default function MarginBySku({ onData }) {
   const totalProfit = skuData.reduce((s, r) => s + r.Gross_Profit_INR, 0)
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#1B2A6B]">Margin by SKU</h2>
         <SourceButton href={SHEET_URLS.margin_by_sku} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         <KpiCard label="Avg Gross Margin" value={avgMargin ? `${avgMargin}%` : '—'} />
         <KpiCard label="Best Margin SKU" value={best?.SKU?.replace(' - ', ' ') ?? '—'} sub={`${best?.Avg_Margin_Pct}%`} />
         <KpiCard label="Total Gross Profit" value={fmt(totalProfit)} />

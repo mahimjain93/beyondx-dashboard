@@ -29,11 +29,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
-      <div className="max-w-6xl mx-auto px-8 pt-10 pb-12">
+      <div className="max-w-5xl mx-auto px-12 pt-12 pb-16">
 
         {/* Header */}
-        <div className="mb-8">
-          <p className="text-[11px] font-semibold text-[#A8C4E0] uppercase tracking-[0.18em] mb-2">BeyondX · Founder's Associate Portfolio</p>
+        <div className="mb-10">
+          <p className="text-[11px] font-semibold text-[#A8C4E0] uppercase tracking-[0.18em] mb-3">BeyondX · Founder's Associate Portfolio</p>
           <h1 className="text-[2.4rem] font-bold text-[#1B2A6B] leading-tight tracking-tight">Analytics Dashboard</h1>
           <p className="text-sm text-[#7a91b8] mt-2">
             Built by <span className="font-semibold text-[#1B2A6B]">Mahim Jain</span> — demonstrating operational analytics for Beyond's home appliances portfolio
@@ -41,7 +41,7 @@ export default function App() {
         </div>
 
         {/* NL Query Bar */}
-        <div className="mb-8">
+        <div className="mb-10 max-w-2xl">
           <NLQueryBar dashboardData={tabData} />
         </div>
 
@@ -49,12 +49,12 @@ export default function App() {
         <TabBar active={activeTab} onChange={setActiveTab} />
 
         {/* Tab Content */}
-        <div className="mt-8">
+        <div className="mt-10">
           <ActiveTab onData={handleTabData} />
         </div>
 
         {/* Footer */}
-        <div className="mt-12 text-center">
+        <div className="mt-16 text-center">
           <p className="text-xs text-[#A8C4E0]">Data from Google Sheets · React + Vite + Tailwind CSS · Gemini 2.5 Flash</p>
         </div>
       </div>

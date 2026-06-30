@@ -53,13 +53,13 @@ export default function RetailerCoverage({ onData }) {
   const gmvData = [...latest].sort((a, b) => num(b.Monthly_GMV_INR) - num(a.Monthly_GMV_INR))
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#1B2A6B]">Retailer Coverage</h2>
         <SourceButton href={SHEET_URLS.retailer_coverage} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         <KpiCard label="Active Retailers" value={active} />
         <KpiCard label="Onboarding" value={onboarding} />
         <KpiCard label="Churned" value={churned} />

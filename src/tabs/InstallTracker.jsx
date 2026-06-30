@@ -57,13 +57,13 @@ export default function InstallTracker({ onData }) {
   const cities = Object.keys(byCity).length
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#1B2A6B]">Install Tracker</h2>
         <SourceButton href={SHEET_URLS.install_tracker} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         <KpiCard label="Total Installs" value={totalInstalls.toLocaleString('en-IN')} />
         <KpiCard label="Cities Covered" value={cities} />
         <KpiCard label="Top City" value={topCity?.City ?? '—'} sub={`${topCity?.Installs?.toLocaleString()} installs`} />

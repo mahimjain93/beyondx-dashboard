@@ -63,13 +63,13 @@ export default function SalesOverview({ onData }) {
   const channelData = Object.values(byChannel)
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#1B2A6B]">Sales Overview</h2>
         <SourceButton href={SHEET_URLS.sales_overview} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         <KpiCard label="Total Revenue" value={fmt(totalRevenue)} trend={growth} sub="vs last week" />
         <KpiCard label="Units Sold" value={totalUnits.toLocaleString('en-IN')} />
         <KpiCard label="Avg Selling Price" value={fmt(avgOrderValue)} />

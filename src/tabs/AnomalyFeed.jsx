@@ -36,13 +36,13 @@ export default function AnomalyFeed({ onData }) {
   const filtered = filter === 'All' ? sorted : sorted.filter(r => r.Severity === filter)
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#1B2A6B]">Anomaly Feed</h2>
         <SourceButton href={SHEET_URLS.anomaly_log} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         <KpiCard label="Total Anomalies" value={data.length} />
         <KpiCard label="High Severity" value={high} />
         <KpiCard label="Medium" value={medium} />

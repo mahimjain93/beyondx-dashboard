@@ -68,13 +68,13 @@ export default function NpsAfterSales({ onData }) {
   const topComplaint = Object.entries(complaints).sort((a, b) => b[1] - a[1])[0]?.[0]
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#1B2A6B]">NPS & After-Sales</h2>
         <SourceButton href={SHEET_URLS.nps_aftersales} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         <KpiCard label="Avg NPS Score" value={avgNps ?? '—'} sub="across all channels" />
         <KpiCard label="Total Complaints" value={totalComplaints} />
         <KpiCard label="Avg Resolution" value={avgResolution ? `${avgResolution} days` : '—'} />

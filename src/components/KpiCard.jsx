@@ -5,7 +5,7 @@ export default function KpiCard({ label, value, sub, trend }) {
   const down = trend < 0
 
   return (
-    <div className="bg-white rounded-xl border border-[#E8EEF6] p-5 flex flex-col gap-2">
+    <div className="bg-white rounded-xl border border-[#E8EEF6] p-6 flex flex-col gap-3">
       <span className="text-[2rem] font-bold text-[#1B2A6B] leading-none">{value ?? '—'}</span>
       <span className="text-[11px] font-semibold text-[#7a91b8] uppercase tracking-[0.1em]">{label}</span>
       {(sub || trend !== undefined) && (
