@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
-      <div className="max-w-4xl mx-auto px-10 pt-12 pb-16">
+      <div style={{maxWidth: '820px', margin: '0 auto', padding: '48px 40px 64px'}}>
 
         {/* Header */}
         <div className="mb-10">
