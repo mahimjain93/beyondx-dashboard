@@ -7,7 +7,11 @@ export default function KpiCard({ label, value, sub, trend }) {
   return (
     <div className="bg-white rounded-xl border border-gray-100 p-5 flex flex-col gap-1 shadow-sm">
       <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">{label}</span>
-      <span className="text-2xl font-semibold text-gray-900">{value ?? '—'}</span>
+      {typeof value === 'string' && isNaN(Number(value)) ? (
+        <span className="font-semibold text-gray-900 truncate" style={{ fontSize: '16px', maxWidth: '100%' }}>{value ?? '—'}</span>
+      ) : (
+        <span className="text-2xl font-semibold tehxt-gray-900">{value ?? '—'}</span>
+      )}
       {(sub || trend !== undefined) && (
         <div className="flex items-center gap-2 mt-0.5">
           {trend !== undefined && (
