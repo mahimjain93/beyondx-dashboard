@@ -10,13 +10,7 @@ import { Loader2 } from 'lucide-react'
 
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 
-const CHANNEL_COLORS = {
-  Amazon: '#1a1a1a',
-  Flipkart: '#6b7280',
-  'Own Website': '#9ca3af',
-  'Offline - Modern Trade': '#d1d5db',
-  'Offline - General Trade': '#e5e7eb',
-}
+const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
 
 export default function NpsAfterSales({ onData }) {
   const [data, setData] = useState([])
@@ -91,11 +85,11 @@ export default function NpsAfterSales({ onData }) {
         <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">NPS trend by week (avg)</p>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={weekData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
             <XAxis dataKey="Week" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={40} />
             <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
             <Tooltip />
-            <Line type="monotone" dataKey="Avg_NPS" stroke="#1a1a1a" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="Avg_NPS" stroke={C.orange} strokeWidth={2.5} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -105,11 +99,11 @@ export default function NpsAfterSales({ onData }) {
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Avg NPS by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="Channel" tick={{ fontSize: 9 }} angle={-20} textAnchor="end" height={50} />
               <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
               <Tooltip />
-              <Bar dataKey="Avg_NPS" fill="#1a1a1a" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="Avg_NPS" fill={C.navy} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -118,11 +112,11 @@ export default function NpsAfterSales({ onData }) {
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Total complaints by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="Channel" tick={{ fontSize: 9 }} angle={-20} textAnchor="end" height={50} />
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip />
-              <Bar dataKey="Complaints_Count" fill="#6b7280" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="Complaints_Count" fill={C.orange} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
