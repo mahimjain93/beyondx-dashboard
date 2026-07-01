@@ -20,6 +20,11 @@ export default async function handler(req, res) {
 Answer the following question based on the dashboard data provided.
 Be concise (2-4 sentences). Use numbers when available. If data is insufficient, say so.
 
+Field definitions — do not conflate these:
+- "Channel" (in sales_overview and nps_aftersales) is a sales channel: Amazon, Flipkart, Own Website, Offline - Modern Trade, or Offline - General Trade. It is NOT an individual retailer.
+- "Retailer_Name" (in retailer_coverage only) is an individual named retail store/partner. NPS and complaint data are not broken down by Retailer_Name.
+If a question asks about "retailers" but the relevant metric is only available by Channel (or vice versa), say the breakdown isn't available at that level rather than answering with a Channel value as if it were a retailer.
+
 Dashboard data (JSON):
 ${JSON.stringify(context, null, 2)}
 
