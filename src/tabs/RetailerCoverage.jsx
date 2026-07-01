@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
+import { num, fmtCurrency as fmt } from '../lib/format'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
 import ChartCard from '../components/ChartCard'
@@ -9,11 +10,6 @@ import clsx from 'clsx'
 
 const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
 
-function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
-function fmt(n) {
-  if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)}L`
-  return `₹${Math.round(n).toLocaleString('en-IN')}`
-}
 function SectionTitle({ children }) {
   return <p className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.12em] mb-4">{children}</p>
 }

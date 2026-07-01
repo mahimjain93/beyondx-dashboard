@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
+import { num } from '../lib/format'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
 import { Loader2, AlertTriangle, Info, XCircle } from 'lucide-react'
@@ -10,8 +11,6 @@ const SEVERITY = {
   Medium: { bg: 'bg-amber-50 border-amber-200', icon: 'text-amber-500', badge: 'bg-amber-50 text-amber-600 border-amber-200', Icon: AlertTriangle },
   Low: { bg: 'bg-blue-50 border-blue-200', icon: 'text-blue-400', badge: 'bg-blue-50 text-blue-600 border-blue-200', Icon: Info },
 }
-
-function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 
 export default function AnomalyFeed({ onData }) {
   const [data, setData] = useState([])

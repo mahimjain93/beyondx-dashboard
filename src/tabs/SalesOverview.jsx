@@ -4,6 +4,7 @@ import {
   Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell,
 } from 'recharts'
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
+import { num, fmtCurrency as fmt } from '../lib/format'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
 import ChartCard from '../components/ChartCard'
@@ -11,13 +12,6 @@ import { Loader2 } from 'lucide-react'
 
 const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
 const PIE_COLORS = ['#1B2A6B', '#F5A623', '#A8C4E0', '#7ED9A9', '#E86A6A', '#C9C9C9']
-
-function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
-function fmt(n) {
-  if (n >= 1e7) return `₹${(n / 1e7).toFixed(1)}Cr`
-  if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)}L`
-  return `₹${Math.round(n).toLocaleString('en-IN')}`
-}
 
 export default function SalesOverview({ onData }) {
   const [data, setData] = useState([])

@@ -4,14 +4,13 @@ import {
   ResponsiveContainer, LineChart, Line, Legend,
 } from 'recharts'
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
+import { num } from '../lib/format'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
 import ChartCard from '../components/ChartCard'
 import { Loader2 } from 'lucide-react'
 
 const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
-
-function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 
 export default function InstallTracker({ onData }) {
   const [data, setData] = useState([])
