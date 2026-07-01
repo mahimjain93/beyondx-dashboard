@@ -40,7 +40,7 @@ export default function NLQueryBar({ dashboardData }) {
         <button
           type="submit"
           disabled={loading || !query.trim()}
-          className="px-4 py-2 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-700 disabled:opacity-40 transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-white text-gray-700 text-sm rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-40 transition-colors flex items-center gap-2"
         >
           {loading && <Loader2 size={14} className="animate-spin" />}
           Ask
