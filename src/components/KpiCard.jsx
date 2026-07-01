@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import { HelpCircle, ExternalLink } from 'lucide-react'
 import clsx from 'clsx'
 
 export default function KpiCard({ label, value, sub, trend, tooltip, tooltipHref }) {
-  const [showTip, setShowTip] = useState(false)
   const up = trend > 0
   const down = trend < 0
 
@@ -14,17 +12,12 @@ export default function KpiCard({ label, value, sub, trend, tooltip, tooltipHref
   return (
     <div className="relative bg-white rounded-xl border border-[#E8EEF6] p-6 flex flex-col gap-3">
       {tooltip && (
-        <div className="absolute top-3 right-3">
-          <button
-            onMouseEnter={() => setShowTip(true)}
-            onMouseLeave={() => setShowTip(false)}
-            className="text-[#A8C4E0] hover:text-[#566584] transition-colors"
-            aria-label="More info"
-          >
+        <div className="absolute top-3 right-3 group">
+          <button className="text-[#A8C4E0] group-hover:text-[#566584] transition-colors" aria-label="More info">
             <HelpCircle size={14} />
           </button>
-          {showTip && (
-            <div className="absolute right-0 top-6 z-20 w-56 bg-white border border-[#E8EEF6] rounded-xl p-3 shadow-xl text-xs text-[#566584] leading-relaxed">
+          <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity absolute right-0 top-full pt-2 z-20 w-56">
+            <div className="bg-white border border-[#E8EEF6] rounded-xl p-3 shadow-xl text-xs text-[#566584] leading-relaxed">
               {tooltip}
               {tooltipHref && (
                 <a
@@ -38,7 +31,7 @@ export default function KpiCard({ label, value, sub, trend, tooltip, tooltipHref
                 </a>
               )}
             </div>
-          )}
+          </div>
         </div>
       )}
       <span className={clsx('font-bold text-[#1B2A6B] leading-tight break-words', valueSizeClass)}>
