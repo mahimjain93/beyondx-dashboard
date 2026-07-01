@@ -1,3 +1,69 @@
+function num(v) {
+  return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0
+}
+
+function groupSum(rows, groupKey, valueKey) {
+  const out = {}
+  for (const r of rows || []) {
+    const k = r[groupKey]
+    out[k] = (out[k] || 0) + num(r[valueKey])
+  }
+  return out
+}
+
+function groupAvg(rows, groupKey, valueKey, decimals) {
+  const sums = {}, counts = {}
+  for (const r of rows || []) {
+    const k = r[groupKey]
+    sums[k] = (sums[k] || 0) + num(r[valueKey])
+    counts[k] = (counts[k] || 0) + 1
+  }
+  const out = {}
+  for (const k of Object.keys(sums)) {
+    out[k] = parseFloat((sums[k] / counts[k]).toFixed(decimals))
+  }
+  return out
+}
+
+function latestRowByKey(rows, groupKey, weekKey) {
+  const out = {}
+  for (const r of rows || []) {
+    if (!out[r[groupKey]] || r[weekKey] > out[r[groupKey]][weekKey]) out[r[groupKey]] = r
+  }
+  return out
+}
+
+// Precompute the same aggregates each tab's charts already show, using plain
+// JS math instead of asking Gemini to sum/average hundreds of raw JSON rows
+// itself — in-context LLM arithmetic over large row counts is unreliable and
+// was verified to produce wrong totals (e.g. revenue by channel off by 4x+).
+function buildRollups(context) {
+  const rollups = {}
+
+  if (context?.sales_overview) {
+    rollups.revenue_by_channel_INR = groupSum(context.sales_overview, 'Channel', 'Revenue_INR')
+  }
+  if (context?.install_tracker) {
+    rollups.installs_by_city = groupSum(context.install_tracker, 'City', 'Installs')
+  }
+  if (context?.nps_aftersales) {
+    // Rounded to match the whole-number Avg NPS shown in the NPS & After-Sales bar chart.
+    rollups.avg_nps_by_channel = groupAvg(context.nps_aftersales, 'Channel', 'NPS_Score', 0)
+  }
+  if (context?.margin_by_sku) {
+    rollups.avg_gross_margin_pct_by_sku = groupAvg(context.margin_by_sku, 'SKU', 'Gross_Margin_Pct', 1)
+    rollups.total_gross_profit_INR = groupSum(context.margin_by_sku, 'SKU', 'Gross_Profit_INR')
+  }
+  if (context?.retailer_coverage) {
+    const latest = latestRowByKey(context.retailer_coverage, 'Retailer_Name', 'Week')
+    rollups.latest_week_gmv_by_retailer_INR = Object.fromEntries(
+      Object.entries(latest).map(([name, row]) => [name, num(row.Monthly_GMV_INR)])
+    )
+  }
+
+  return rollups
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' })
@@ -15,6 +81,8 @@ export default async function handler(req, res) {
     res.status(400).json({ error: 'Missing question.' })
     return
   }
+
+  const rollups = buildRollups(context)
 
   const prompt = `You are an analytics assistant for BeyondX, a home appliances brand.
 Answer the following question based on the dashboard data provided.
@@ -59,6 +127,16 @@ anomaly_log (flagged anomalies across all modules):
 - Expected_Value / Actual_Value: internal anomaly-detection index numbers on a scale specific to that row's Metric. They are NOT directly comparable across different Metric rows, and are NOT on the same scale as the raw columns in other datasets (e.g. an Expected_Value of 286 for "NPS Score" is not itself an NPS score on the 0–100 scale used in nps_aftersales — it's an aggregated detector value). Do not attempt to reinterpret or convert these; rely on Deviation_Pct and Alert_Text for magnitude and direction instead.
 
 General rule: if a question asks for a breakdown that doesn't exist at the level requested (e.g. "which retailer" when only Channel-level data exists for that metric), say so rather than substituting a value from a different field.
+
+Precomputed rollups (exact sums/averages, already correct — for any question about a
+total, average, or ranking across weeks/rows, such as total or highest/lowest revenue by
+channel, installs by city, average NPS by channel, margin by SKU, or GMV by retailer, READ
+THE ANSWER DIRECTLY FROM HERE. Do NOT sum or average the raw per-row data yourself — you
+are a language model, not a calculator, and manually aggregating hundreds of JSON rows in
+context is unreliable; when tested it produced totals off by 4x and misidentified the top
+city and top NPS channel. Only fall back to the raw rows below for questions these rollups
+don't cover, e.g. single-week or single-SKU lookups):
+${JSON.stringify(rollups, null, 2)}
 
 Dashboard data (JSON):
 ${JSON.stringify(context, null, 2)}
