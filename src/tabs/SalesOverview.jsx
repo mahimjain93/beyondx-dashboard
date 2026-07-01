@@ -1,24 +1,22 @@
 import { useEffect, useState } from 'react'
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Legend,
+  Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell,
 } from 'recharts'
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
+import ChartCard from '../components/ChartCard'
 import { Loader2 } from 'lucide-react'
 
 const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
+const PIE_COLORS = ['#1B2A6B', '#F5A623', '#A8C4E0', '#7ED9A9', '#E86A6A', '#C9C9C9']
 
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 function fmt(n) {
   if (n >= 1e7) return `₹${(n / 1e7).toFixed(1)}Cr`
   if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)}L`
   return `₹${Math.round(n).toLocaleString('en-IN')}`
-}
-
-function SectionTitle({ children }) {
-  return <p className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.12em] mb-4">{children}</p>
 }
 
 export default function SalesOverview({ onData }) {
@@ -79,7 +77,16 @@ export default function SalesOverview({ onData }) {
     if (!cityGMV[r.City]) cityGMV[r.City] = { City: r.City, Tier: r.City_Tier, GMV: 0 }
     cityGMV[r.City].GMV += num(r.Monthly_GMV_INR)
   })
-  const topCity = Object.values(cityGMV).sort((a, b) => b.GMV - a.GMV)[0]
+  const cityByGMV = Object.values(cityGMV).sort((a, b) => b.GMV - a.GMV)
+  const topCity = cityByGMV[0]
+
+  const topCities = cityByGMV.slice(0, 5)
+  const otherCityGMV = cityByGMV.slice(5).reduce((s, c) => s + c.GMV, 0)
+  const cityPieData = [
+    ...topCities.map(c => ({ name: c.City, value: c.GMV })),
+    ...(otherCityGMV > 0 ? [{ name: 'Other', value: otherCityGMV }] : []),
+  ]
+  const totalCityGMV = cityPieData.reduce((s, c) => s + c.value, 0)
 
   return (
     <div className="flex flex-col gap-10">
@@ -124,8 +131,7 @@ export default function SalesOverview({ onData }) {
         />
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-        <SectionTitle>Weekly Revenue Trend</SectionTitle>
+      <ChartCard title="Weekly Revenue Trend" sourceHref={SHEET_URLS.sales_overview}>
         <ResponsiveContainer width="100%" height={230}>
           <LineChart data={weekData}>
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -136,11 +142,10 @@ export default function SalesOverview({ onData }) {
             <Line type="monotone" dataKey="Revenue_INR" name="Revenue" stroke={C.orange} strokeWidth={2.5} dot={false} />
           </LineChart>
         </ResponsiveContainer>
-      </div>
+      </ChartCard>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Revenue by Channel</SectionTitle>
+      <div className="grid md:grid-cols-3 gap-6">
+        <ChartCard title="Revenue by Channel" sourceHref={SHEET_URLS.sales_overview}>
           <ResponsiveContainer width="100%" height={210}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -150,10 +155,9 @@ export default function SalesOverview({ onData }) {
               <Bar dataKey="Revenue_INR" name="Revenue" fill={C.navy} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
 
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Units by Channel</SectionTitle>
+        <ChartCard title="Units by Channel" sourceHref={SHEET_URLS.sales_overview}>
           <ResponsiveContainer width="100%" height={210}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -163,7 +167,21 @@ export default function SalesOverview({ onData }) {
               <Bar dataKey="Units_Sold" name="Units" fill={C.blue} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
+
+        <ChartCard title="GMV Share by City" sourceHref={SHEET_URLS.retailer_coverage}>
+          <ResponsiveContainer width="100%" height={210}>
+            <PieChart>
+              <Tooltip formatter={(v, n) => [`${fmt(v)} (${((v / totalCityGMV) * 100).toFixed(1)}%)`, n]} />
+              <Legend wrapperStyle={{ fontSize: 11, color: C.axis }} />
+              <Pie data={cityPieData} dataKey="value" nameKey="name" innerRadius="55%" outerRadius="80%" paddingAngle={2}>
+                {cityPieData.map((entry, i) => (
+                  <Cell key={entry.name} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        </ChartCard>
       </div>
     </div>
   )

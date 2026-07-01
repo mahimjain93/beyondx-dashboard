@@ -6,14 +6,12 @@ import {
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
+import ChartCard from '../components/ChartCard'
 import { Loader2 } from 'lucide-react'
 
 const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
 
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
-function SectionTitle({ children }) {
-  return <p className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.12em] mb-4">{children}</p>
-}
 
 export default function InstallTracker({ onData }) {
   const [data, setData] = useState([])
@@ -70,8 +68,7 @@ export default function InstallTracker({ onData }) {
         <KpiCard label="Products" value={productData.length} tooltip="Number of distinct appliance SKUs with installation records in the dataset." tooltipHref={SHEET_URLS.install_tracker} />
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-        <SectionTitle>Weekly Install Trend</SectionTitle>
+      <ChartCard title="Weekly Install Trend" sourceHref={SHEET_URLS.install_tracker}>
         <ResponsiveContainer width="100%" height={210}>
           <LineChart data={weekData}>
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -82,11 +79,10 @@ export default function InstallTracker({ onData }) {
             <Line type="monotone" dataKey="Installs" name="Installs" stroke={C.orange} strokeWidth={2.5} dot={false} />
           </LineChart>
         </ResponsiveContainer>
-      </div>
+      </ChartCard>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Top Cities by Installs</SectionTitle>
+        <ChartCard title="Top Cities by Installs" sourceHref={SHEET_URLS.install_tracker}>
           <ResponsiveContainer width="100%" height={230}>
             <BarChart data={cityData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} horizontal={false} />
@@ -96,10 +92,9 @@ export default function InstallTracker({ onData }) {
               <Bar dataKey="Installs" name="Installs" fill={C.navy} radius={[0, 3, 3, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
 
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Installs by Product</SectionTitle>
+        <ChartCard title="Installs by Product" sourceHref={SHEET_URLS.install_tracker}>
           <ResponsiveContainer width="100%" height={230}>
             <BarChart data={productData}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -109,7 +104,7 @@ export default function InstallTracker({ onData }) {
               <Bar dataKey="Installs" name="Installs" fill={C.blue} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
       </div>
     </div>
   )

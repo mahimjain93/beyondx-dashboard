@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
+import ChartCard from '../components/ChartCard'
 import { Loader2 } from 'lucide-react'
 import clsx from 'clsx'
 
@@ -66,8 +67,7 @@ export default function RetailerCoverage({ onData }) {
         <KpiCard label="Total GMV" value={fmt(totalGMV)} sub="latest week" tooltip="Sum of monthly GMV across all retailers as of the most recent week in the dataset." tooltipHref={SHEET_URLS.retailer_coverage} />
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-        <SectionTitle>Monthly GMV by Retailer (Latest Week)</SectionTitle>
+      <ChartCard title="Monthly GMV by Retailer (Latest Week)" sourceHref={SHEET_URLS.retailer_coverage}>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={gmvData}>
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -77,7 +77,7 @@ export default function RetailerCoverage({ onData }) {
             <Bar dataKey="Monthly_GMV_INR" name="Monthly GMV" fill={C.navy} radius={[3, 3, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </ChartCard>
 
       <div className="bg-white rounded-xl border border-[#E8EEF6] p-6 overflow-auto">
         <SectionTitle>Retailer Status (Latest Week)</SectionTitle>

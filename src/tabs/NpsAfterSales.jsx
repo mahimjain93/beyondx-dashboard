@@ -6,14 +6,12 @@ import {
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
+import ChartCard from '../components/ChartCard'
 import { Loader2 } from 'lucide-react'
 
 const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
 
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
-function SectionTitle({ children }) {
-  return <p className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.12em] mb-4">{children}</p>
-}
 
 export default function NpsAfterSales({ onData }) {
   const [data, setData] = useState([])
@@ -81,8 +79,7 @@ export default function NpsAfterSales({ onData }) {
         <KpiCard label="Top Issue" value={topComplaint ?? '—'} tooltip="Most frequently occurring customer complaint category across the entire dataset." tooltipHref={SHEET_URLS.nps_aftersales} />
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-        <SectionTitle>NPS Trend by Week (Avg)</SectionTitle>
+      <ChartCard title="NPS Trend by Week (Avg)" sourceHref={SHEET_URLS.nps_aftersales}>
         <ResponsiveContainer width="100%" height={210}>
           <LineChart data={weekData}>
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -93,11 +90,10 @@ export default function NpsAfterSales({ onData }) {
             <Line type="monotone" dataKey="Avg_NPS" name="Avg NPS" stroke={C.orange} strokeWidth={2.5} dot={false} />
           </LineChart>
         </ResponsiveContainer>
-      </div>
+      </ChartCard>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Avg NPS by Channel</SectionTitle>
+        <ChartCard title="Avg NPS by Channel" sourceHref={SHEET_URLS.nps_aftersales}>
           <ResponsiveContainer width="100%" height={210}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -107,10 +103,9 @@ export default function NpsAfterSales({ onData }) {
               <Bar dataKey="Avg_NPS" name="Avg NPS" fill={C.navy} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
 
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Total Complaints by Channel</SectionTitle>
+        <ChartCard title="Total Complaints by Channel" sourceHref={SHEET_URLS.nps_aftersales}>
           <ResponsiveContainer width="100%" height={210}>
             <BarChart data={channelData}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -120,7 +115,7 @@ export default function NpsAfterSales({ onData }) {
               <Bar dataKey="Complaints_Count" name="Complaints" fill={C.orange} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
       </div>
     </div>
   )

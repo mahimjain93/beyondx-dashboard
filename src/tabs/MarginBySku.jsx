@@ -6,6 +6,7 @@ import {
 import { fetchSheet, SHEET_URLS } from '../lib/sheets'
 import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
+import ChartCard from '../components/ChartCard'
 import { Loader2 } from 'lucide-react'
 
 const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
@@ -14,9 +15,6 @@ function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 function fmt(n) {
   if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)}L`
   return `₹${Math.round(n).toLocaleString('en-IN')}`
-}
-function SectionTitle({ children }) {
-  return <p className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.12em] mb-4">{children}</p>
 }
 
 export default function MarginBySku({ onData }) {
@@ -80,8 +78,7 @@ export default function MarginBySku({ onData }) {
         <KpiCard label="SKUs" value={skuData.length} tooltip="Number of distinct product SKUs tracked in the margin analysis." tooltipHref={SHEET_URLS.margin_by_sku} />
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-        <SectionTitle>Avg Gross Margin % by SKU</SectionTitle>
+      <ChartCard title="Avg Gross Margin % by SKU" sourceHref={SHEET_URLS.margin_by_sku}>
         <ResponsiveContainer width="100%" height={230}>
           <BarChart data={skuData}>
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -95,11 +92,10 @@ export default function MarginBySku({ onData }) {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </ChartCard>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Margin % Trend by Week</SectionTitle>
+        <ChartCard title="Margin % Trend by Week" sourceHref={SHEET_URLS.margin_by_sku}>
           <ResponsiveContainer width="100%" height={210}>
             <LineChart data={weekData}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -110,10 +106,9 @@ export default function MarginBySku({ onData }) {
               <Line type="monotone" dataKey="Avg_Margin" name="Avg Margin" stroke={C.orange} strokeWidth={2.5} dot={false} />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
 
-        <div className="bg-white rounded-xl border border-[#E8EEF6] p-6">
-          <SectionTitle>Total Gross Profit by SKU</SectionTitle>
+        <ChartCard title="Total Gross Profit by SKU" sourceHref={SHEET_URLS.margin_by_sku}>
           <ResponsiveContainer width="100%" height={210}>
             <BarChart data={skuData}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
@@ -123,7 +118,7 @@ export default function MarginBySku({ onData }) {
               <Bar dataKey="Gross_Profit_INR" name="Gross Profit" fill={C.orange} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartCard>
       </div>
     </div>
   )
