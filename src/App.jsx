@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TabBar from './components/TabBar'
 import NLQueryBar from './components/NLQueryBar'
 import SalesOverview from './tabs/SalesOverview'
@@ -7,6 +7,7 @@ import RetailerCoverage from './tabs/RetailerCoverage'
 import NpsAfterSales from './tabs/NpsAfterSales'
 import MarginBySku from './tabs/MarginBySku'
 import AnomalyFeed from './tabs/AnomalyFeed'
+import { fetchSheet, SHEET_URLS } from './lib/sheets'
 
 const TAB_COMPONENTS = {
   sales_overview: SalesOverview,
@@ -26,6 +27,16 @@ export default function App() {
   function handleTabData(data) {
     setTabData(prev => ({ ...prev, [activeTab]: data }))
   }
+
+  // Preload every sheet so the NL query bar always has the full dataset,
+  // not just whichever tabs the user has clicked through.
+  useEffect(() => {
+    Object.keys(SHEET_URLS).forEach((name) => {
+      fetchSheet(name)
+        .then((rows) => setTabData(prev => ({ ...prev, [name]: rows })))
+        .catch(() => {})
+    })
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
