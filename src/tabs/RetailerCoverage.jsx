@@ -6,6 +6,8 @@ import SourceButton from '../components/SourceButton'
 import { Loader2 } from 'lucide-react'
 import clsx from 'clsx'
 
+const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
+
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 function fmt(n) {
   if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)}L`
@@ -67,11 +69,11 @@ export default function RetailerCoverage({ onData }) {
         <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Monthly GMV by retailer (latest week)</p>
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={gmvData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
             <XAxis dataKey="Retailer_Name" tick={{ fontSize: 10 }} angle={-25} textAnchor="end" height={55} />
             <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1e5).toFixed(0)}L`} />
             <Tooltip formatter={v => [fmt(v), 'GMV']} />
-            <Bar dataKey="Monthly_GMV_INR" fill="#1a1a1a" radius={[3, 3, 0, 0]} />
+            <Bar dataKey="Monthly_GMV_INR" fill={C.navy} radius={[3, 3, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
