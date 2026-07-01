@@ -7,6 +7,10 @@ export default function KpiCard({ label, value, sub, trend, tooltip, tooltipHref
   const up = trend > 0
   const down = trend < 0
 
+  const valueLength = String(value ?? '—').length
+  const valueSizeClass =
+    valueLength > 16 ? 'text-xl' : valueLength > 10 ? 'text-2xl' : 'text-[2rem]'
+
   return (
     <div className="relative bg-white rounded-xl border border-[#E8EEF6] p-6 flex flex-col gap-3">
       {tooltip && (
@@ -37,7 +41,9 @@ export default function KpiCard({ label, value, sub, trend, tooltip, tooltipHref
           )}
         </div>
       )}
-      <span className="text-[2rem] font-bold text-[#1B2A6B] leading-none">{value ?? '—'}</span>
+      <span className={clsx('font-bold text-[#1B2A6B] leading-tight break-words', valueSizeClass)}>
+        {value ?? '—'}
+      </span>
       <span className="text-[11px] font-semibold text-[#566584] uppercase tracking-[0.1em]">{label}</span>
       {(sub || trend !== undefined) && (
         <div className="flex items-center gap-2">
