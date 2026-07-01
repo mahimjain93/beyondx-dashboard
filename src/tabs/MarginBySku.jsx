@@ -8,6 +8,8 @@ import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
 import { Loader2 } from 'lucide-react'
 
+const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
+
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 function fmt(n) {
   if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)}L`
@@ -81,13 +83,13 @@ export default function MarginBySku({ onData }) {
         <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Avg gross margin % by SKU</p>
         <ResponsiveContainer width="100%" height={220}>
           <BarChart data={skuData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
             <XAxis dataKey="SKU" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={55} />
             <YAxis tick={{ fontSize: 11 }} unit="%" domain={[0, 50]} />
             <Tooltip formatter={v => [`${v}%`, 'Avg Margin']} />
             <Bar dataKey="Avg_Margin_Pct" radius={[3, 3, 0, 0]}>
               {skuData.map((row, i) => (
-                <Cell key={i} fill={row.Avg_Margin_Pct >= parseFloat(avgMargin) ? '#1a1a1a' : '#d1d5db'} />
+                <Cell key={i} fill={row.Avg_Margin_Pct >= parseFloat(avgMargin) ? C.navy : C.blue} />
               ))}
             </Bar>
           </BarChart>
@@ -99,11 +101,11 @@ export default function MarginBySku({ onData }) {
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Margin % trend by week</p>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={weekData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="Week" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={40} />
               <YAxis tick={{ fontSize: 11 }} unit="%" domain={[25, 45]} />
               <Tooltip formatter={v => [`${v}%`, 'Avg Margin']} />
-              <Line type="monotone" dataKey="Avg_Margin" stroke="#1a1a1a" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="Avg_Margin" stroke={C.orange} strokeWidth={2.5} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -112,11 +114,11 @@ export default function MarginBySku({ onData }) {
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Total gross profit by SKU</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={skuData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="SKU" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={55} />
               <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1e7).toFixed(1)}Cr`} />
               <Tooltip formatter={v => [fmt(v), 'Gross Profit']} />
-              <Bar dataKey="Gross_Profit_INR" fill="#6b7280" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="Gross_Profit_INR" fill={C.orange} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
