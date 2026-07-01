@@ -33,7 +33,7 @@ export default function NLQueryBar({ dashboardData }) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ask anything about the dashboard… e.g. Which retailer has the lowest NPS?"
+            placeholder="Ask anything about the dashboard… e.g. Which channel has the lowest NPS?"
             className="w-full pl-10 pr-4 py-2.5 text-sm border border-[#E8EEF6] rounded-lg outline-none focus:border-[#1B2A6B] transition-colors text-[#1B2A6B] placeholder:text-[#A8C4E0] bg-[#F5F7FA]"
           />
         </div>
