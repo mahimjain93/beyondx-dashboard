@@ -8,6 +8,8 @@ import KpiCard from '../components/KpiCard'
 import SourceButton from '../components/SourceButton'
 import { Loader2 } from 'lucide-react'
 
+const C = { navy: '#1B2A6B', orange: '#F5A623', blue: '#A8C4E0', grid: '#EBF0F8', axis: '#7a91b8' }
+
 function num(v) { return parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0 }
 
 function fmt(n) {
@@ -78,11 +80,11 @@ export default function SalesOverview({ onData }) {
         <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Weekly revenue trend</p>
         <ResponsiveContainer width="100%" height={220}>
           <LineChart data={weekData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
             <XAxis dataKey="Week" tick={{ fontSize: 10 }} angle={-20} textAnchor="end" height={40} />
             <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `₹${(v/1e5).toFixed(0)}L`} />
             <Tooltip formatter={v => [fmt(v), 'Revenue']} />
-            <Line type="monotone" dataKey="Revenue_INR" stroke="#1a1a1a" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="Revenue_INR" stroke={C.orange} strokeWidth={2.5} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -92,11 +94,11 @@ export default function SalesOverview({ onData }) {
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Revenue by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="Channel" tick={{ fontSize: 10 }} angle={-15} textAnchor="end" height={45} />
               <YAxis tick={{ fontSize: 11 }} tickFormatter={v => `${(v/1e5).toFixed(0)}L`} />
               <Tooltip formatter={v => [fmt(v), 'Revenue']} />
-              <Bar dataKey="Revenue_INR" fill="#1a1a1a" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="Revenue_INR" fill={C.navy} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -105,11 +107,11 @@ export default function SalesOverview({ onData }) {
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-4">Units by channel</p>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={channelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="Channel" tick={{ fontSize: 10 }} angle={-15} textAnchor="end" height={45} />
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip />
-              <Bar dataKey="Units_Sold" fill="#d1d5db" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="Units_Sold" fill={C.blue} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
