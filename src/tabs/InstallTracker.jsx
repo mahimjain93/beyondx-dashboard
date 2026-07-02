@@ -60,7 +60,7 @@ export default function InstallTracker({ onData }) {
         <SourceButton href={SHEET_URLS.install_tracker} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
         <KpiCard label="Total Installs" value={totalInstalls.toLocaleString('en-IN')} tooltip="Total number of appliance installation jobs completed across all cities and products." tooltipHref={SHEET_URLS.install_tracker} />
         <KpiCard label="Cities Covered" value={cities} tooltip="Number of distinct cities where at least one installation was recorded." tooltipHref={SHEET_URLS.install_tracker} />
         <KpiCard label="Top City" value={topCity?.City ?? '—'} sub={`${topCity?.Installs?.toLocaleString()} installs`} tooltip="City with the highest number of completed appliance installations in the dataset." tooltipHref={SHEET_URLS.install_tracker} />

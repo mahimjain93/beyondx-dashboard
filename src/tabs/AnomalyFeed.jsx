@@ -41,7 +41,7 @@ export default function AnomalyFeed({ onData }) {
         <SourceButton href={SHEET_URLS.anomaly_log} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
         <KpiCard label="Total Anomalies" value={data.length} tooltip="Total flagged anomalies across all modules and severity levels in the log." tooltipHref={SHEET_URLS.anomaly_log} />
         <KpiCard label="High Severity" value={high} tooltip="Critical anomalies with significant deviation from expected values — require immediate review." tooltipHref={SHEET_URLS.anomaly_log} />
         <KpiCard label="Medium" value={medium} tooltip="Moderate anomalies worth monitoring — may indicate emerging trends or data quality issues." tooltipHref={SHEET_URLS.anomaly_log} />

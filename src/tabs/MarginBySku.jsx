@@ -66,7 +66,7 @@ export default function MarginBySku({ onData }) {
         <SourceButton href={SHEET_URLS.margin_by_sku} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
         <KpiCard label="Avg Gross Margin" value={avgMargin ? `${avgMargin}%` : '—'} tooltip="Average gross margin % across all SKUs, calculated as (Revenue – COGS) ÷ Revenue." tooltipHref={SHEET_URLS.margin_by_sku} />
         <KpiCard label="Best Margin SKU" value={best?.SKU?.replace(' - ', ' ') ?? '—'} sub={`${best?.Avg_Margin_Pct}%`} tooltip="The SKU with the highest average gross margin percentage — most profitable product line." tooltipHref={SHEET_URLS.margin_by_sku} />
         <KpiCard label="Total Gross Profit" value={fmt(totalProfit)} tooltip="Cumulative gross profit (₹) across all SKUs and weeks in the dataset." tooltipHref={SHEET_URLS.margin_by_sku} />

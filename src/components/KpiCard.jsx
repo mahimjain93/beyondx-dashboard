@@ -7,7 +7,7 @@ export default function KpiCard({ label, value, sub, trend, tooltip, tooltipHref
 
   const valueLength = String(value ?? '—').length
   const valueSizeClass =
-    valueLength > 16 ? 'text-xl' : valueLength > 10 ? 'text-2xl' : 'text-[2rem]'
+    valueLength > 16 ? 'text-lg sm:text-xl' : valueLength > 10 ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-[2rem]'
 
   return (
     <div className="relative bg-white rounded-xl border border-[#E8EEF6] p-6 flex flex-col gap-3">

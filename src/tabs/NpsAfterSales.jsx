@@ -71,7 +71,7 @@ export default function NpsAfterSales({ onData }) {
         <SourceButton href={SHEET_URLS.nps_aftersales} />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
         <KpiCard label="Avg NPS Score" value={avgNps ?? '—'} sub="across all channels" tooltip="Average Net Promoter Score across all channels and weeks. NPS ranges from -100 to 100; above 50 is excellent." tooltipHref={SHEET_URLS.nps_aftersales} />
         <KpiCard label="Total Complaints" value={totalComplaints} tooltip="Total customer complaints logged across all channels and weeks in the dataset." tooltipHref={SHEET_URLS.nps_aftersales} />
         <KpiCard label="Avg Resolution" value={avgResolution ? `${avgResolution} days` : '—'} tooltip="Average number of days to resolve a customer complaint. Lower is better." tooltipHref={SHEET_URLS.nps_aftersales} />
